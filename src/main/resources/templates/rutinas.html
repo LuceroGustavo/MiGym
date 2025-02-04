@@ -1,25 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
-    <title>Nueva Rutina</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rutinas de Ejercicio</title>
+    <style>
+        .carousel {
+            display: flex;
+            overflow-x: auto;
+            gap: 10px;
+        }
+        .exercise-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .routine-list {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #000;
+        }
+        .routine-item {
+            display: flex;
+            justify-content: space-between;
+            background: #f8f8f8;
+            padding: 5px;
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Nueva Rutina</h1>
-    <form method="post" th:action="@{/rutinas}" th:object="${rutina}">
-        <div>
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
-        </div>
-        <div>
-            <label for="usuarioId">Usuario ID:</label>
-            <select id="usuarioId" name="usuarioId" required>
-                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
-            </select>
-        </div>
-        <div>
-            <!-- Aquí otros campos del formulario -->
-        </div>
-        <button type="submit">Guardar Rutina</button>
-    </form>
+    <h2>Lista de Ejercicios</h2>
+    <div class="carousel" id="exercise-carousel">
+        <!-- Los ejercicios se agregarán dinámicamente -->
+    </div>
+    
+    <h2>Mi Rutina</h2>
+    <div class="routine-list" id="routine-list"></div>
+    
+    <script>
+        const exercises = ["Sentadillas", "Flexiones", "Abdominales", "Burpees", "Planchas", "Saltos" ];
+
+        function loadExercises() {
+            const carousel = document.getElementById("exercise-carousel");
+            exercises.forEach(exercise => {
+                const card = document.createElement("div");
+                card.className = "exercise-card";
+                card.dataset.name = exercise;
+                card.innerHTML = `
+                    <p>${exercise}</p>
+                    <button onclick="addToRoutine('${exercise}')">Agregar</button>
+                `;
+                carousel.appendChild(card);
+            });
+        }
+
+        function addToRoutine(exerciseName) {
+            const routineList = document.getElementById("routine-list");
+            
+            const listItem = document.createElement("div");
+            listItem.className = "routine-item";
+            listItem.innerHTML = `
+                <span>
+                    ${exerciseName}
+                </span>
+                <button onclick="removeExercise(this)">Eliminar</button>
+            `;
+            routineList.appendChild(listItem);
+            saveRoutine();
+        }
+
+        function removeExercise(button) {
+            button.parentElement.remove();
+            saveRoutine();
+        }
+
+        function saveRoutine() {
+            const routineItems = document.querySelectorAll(".routine-item span");
+            const routine = Array.from(routineItems).map(item => item.textContent);
+            localStorage.setItem("routine", JSON.stringify(routine));
+        }
+
+        function loadRoutine() {
+            const savedRoutine = JSON.parse(localStorage.getItem("routine")) || [];
+            const routineList = document.getElementById("routine-list");
+            savedRoutine.forEach(exercise => {
+                const listItem = document.createElement("div");
+                listItem.className = "routine-item";
+                listItem.innerHTML = `
+                    <span>
+                        ${exercise}
+                    </span>
+                    <button onclick="removeExercise(this)">Eliminar</button>
+                `;
+                routineList.appendChild(listItem);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadExercises();
+            loadRoutine();
+        });
+    </script>
 </body>
 </html>

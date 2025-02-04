@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio - MyGim</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        h2 {
+            color: #007bff;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .button-group {
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .user-item h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .user-item p {
+            margin: 5px 0;
+        }
+        .user-item .btn {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Bienvenido a MyGim</h2>
+        <div class="button-group">
+            <a th:href="@{/usuarios/nuevo}" class="btn">Cargar Usuario</a>
+            <a th:href="@{/rutinas/nueva}" class="btn">Cargar Rutina</a>
+            <a th:href="@{/ejercicios/nuevo}" class="btn">Cargar Ejercicio</a>
+            <a th:href="@{/ejercicios/abm}" class="btn">Modificar Ejercicio</a>
+            <a th:href="@{/exercise/lista}" class="btn">Ver Listado de Ejercicios</a>
+            <button type="button" class="btn" onclick="cargarEjerciciosPredeterminados()">Cargar Ejercicios Predeterminados</button>
+        </div>
+        
+        <h3>Usuarios</h3>
+        <ul class="user-list">
+            <li th:each="usuario : ${usuarios}" class="user-item">
+                <h4 th:text="${usuario.nombre}"></h4>
+                <p>Edad: <span th:text="${usuario.edad}"></span></p>
+                <p>Sexo: <span th:text="${usuario.sexo}"></span></p>
+                <p>Peso: <span th:text="${usuario.peso}"></span> kg</p>
+                <a th:href="@{/rutinas/nueva(usuarioId=${usuario.id})}" class="btn">Cargar Rutina</a>
+            </li>
+        </ul>
+    </div>
+    <script>
+        function cargarEjerciciosPredeterminados() {
+            fetch('/cargarEjerciciosPredeterminados', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Ejercicios predeterminados cargados exitosamente.');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al cargar los ejercicios predeterminados.');
+            });
+        }
+    </script>
+</body>
+</html>

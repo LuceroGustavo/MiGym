@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        
+        {
+            "type": "java",
+            "name": "Spring Boot-MyGimApplication<MyGim>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.MyGim.MyGimApplication",
+            "projectName": "MyGim",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

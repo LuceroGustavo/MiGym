@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Rutina</title>
+</head>
+<body>
+    <h1>Nueva Rutina</h1>
+    <form method="post" th:action="@{/rutinas}" th:object="${rutina}">
+        <div>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" th:field="*{nombre}" required />
+        </div>
+        <div>
+            <label for="usuarioId">Usuario ID:</label>
+            <select id="usuarioId" name="usuarioId" required>
+                <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
+            </select>
+        </div>
+        <div>
+            <!-- Aquí otros campos del formulario -->
+        </div>
+        <button type="submit">Guardar Rutina</button>
+    </form>
+</body>
+</html>

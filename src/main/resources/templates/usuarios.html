@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Inicio</title>
+    <link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+<body>
+    <div class="container">
+        <h2>Bienvenido a MyGim</h2>
+        <div class="button-group">
+            <a th:href="@{/usuarios/nuevo}" class="btn">Cargar Usuario</a>
+            <a th:href="@{/rutinas/nueva}" class="btn">Cargar Rutina</a>
+            <a th:href="@{/ejercicios/nuevo}" class="btn">Cargar Ejercicios</a>
+        </div>
+        <h3>Usuarios</h3>
+        <ul class="user-list">
+            <li th:each="usuario : ${usuarios}" class="user-item">
+                <h4 th:text="${usuario.nombre}"></h4>
+                <p>Edad: <span th:text="${usuario.edad}"></span></p>
+                <p>Sexo: <span th:text="${usuario.sexo}"></span></p>
+                <p>Peso: <span th:text="${usuario.peso}"></span> kg</p>
+                <a th:href="@{/rutinas/nueva(usuarioId=${usuario.id})}" class="btn">Cargar Rutina</a>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

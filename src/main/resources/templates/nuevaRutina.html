@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Nueva Rutina</title>
+</head>
+<body>
+<h1>Nueva Rutina</h1>
+<form th:action="@{/rutinas}" th:object="${rutina}" method="post">
+    <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" />
+    </div>
+    <div>
+        <label for="usuario">Usuario:</label>
+        <select id="usuario" th:field="*{usuario.id}">
+            <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.nombre}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="cantidadEjercicios">Cantidad de Ejercicios:</label>
+        <input type="number" id="cantidadEjercicios" th:field="*{cantidadEjercicios}" />
+    </div>
+    <div>
+        <label for="repeticiones">Repeticiones:</label>
+        <input type="number" id="repeticiones" th:field="*{repeticiones}" />
+    </div>
+    <div>
+        <label for="tiempo">Tiempo:</label>
+        <input type="number" id="tiempo" th:field="*{tiempo}" />
+    </div>
+    <div>
+        <label for="peso">Peso:</label>
+        <input type="number" step="0.1" id="peso" th:field="*{peso}" />
+    </div>
+    <div>
+        <label for="ejercicios">Ejercicios:</label>
+        <select id="ejercicios" th:field="*{ejercicios}" multiple>
+            <option th:each="exercise : ${exercises}" th:value="${exercise.id}" th:text="${exercise.name}"></option>
+        </select>
+    </div>
+    <div>
+        <button type="submit">Guardar</button>
+    </div>
+</form>
+</body>
+</html>
